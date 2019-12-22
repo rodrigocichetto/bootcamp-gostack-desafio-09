@@ -24,6 +24,14 @@ export const Content = styled.div`
     flex-direction: column;
     margin-top: 30px;
 
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
     input {
       background: ${colors.white};
       border: 1px solid ${colors.inputBorder};
@@ -38,12 +46,19 @@ export const Content = styled.div`
       }
     }
 
+    span {
+      color: ${colors.error};
+      align-self: flex-start;
+      margin: 0 0 10px;
+    }
+
     button {
       margin: 5px 0 0;
       height: 44px;
       border-radius: 4px;
       border: 0;
       font-size: 16px;
+      font-weight: bold;
       background: ${colors.primary};
       color: ${colors.white};
       transition: background 0.2s;
