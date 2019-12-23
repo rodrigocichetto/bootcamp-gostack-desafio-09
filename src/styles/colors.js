@@ -5,4 +5,5 @@ export default {
   white: '#FFF',
   inputBorder: '#DDDDDD',
   placeholder: '#999999',
+  text: '#666',
 };
