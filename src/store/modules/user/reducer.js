@@ -10,6 +10,9 @@ const user = (state = INITIAL_STATE, action) => {
       case '@auth/SIGN_IN_SUCCESS':
         draft.profile = action.payload.user;
         break;
+      case '@auth/SIGN_OUT':
+        draft.profile = null;
+        break;
       default:
     }
   });

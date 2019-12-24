@@ -61,6 +61,11 @@ export const Button = styled.button`
   &:hover {
     background: ${darken(0.03, colors.primary)};
   }
+
+  svg {
+    vertical-align: top;
+    margin-right: 5px;
+  }
 `;
 
 export const Input = styled.input`

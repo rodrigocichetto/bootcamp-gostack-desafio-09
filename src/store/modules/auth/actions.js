@@ -11,3 +11,7 @@ export const signInSuccess = (token, user) => ({
 export const signFailure = () => ({
   type: '@auth/SIGN_FAILURE',
 });
+
+export const signOut = () => ({
+  type: '@auth/SIGN_OUT',
+});

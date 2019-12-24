@@ -1,6 +1,7 @@
 export default {
   primary: '#EE4D64',
-  error: '#F64C75',
+  info: '#4D85EE',
+  error: '#DE3B3B',
   signedBackground: '#F5F5F5',
   white: '#FFF',
   inputBorder: '#DDDDDD',
