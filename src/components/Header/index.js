@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import history from '~/services/history';
 
 import { signOut } from '~/store/modules/auth/actions';
-import { Container, Content, Profile } from './styles';
+import { Container, Content, Link, Profile } from './styles';
 
 import logo from '~/assets/logo-horizontal.svg';
 
@@ -17,7 +18,12 @@ const Header = () => {
       <Content>
         <nav>
           <img src={logo} alt="Gympoint" />
-          <Link to="/dashboard">Alunos</Link>
+          <Link to="/dashboard" active={history.location.pathname}>
+            Alunos
+          </Link>
+          <Link to="/plans" active={history.location.pathname}>
+            Planos
+          </Link>
         </nav>
         <aside>
           <Profile>

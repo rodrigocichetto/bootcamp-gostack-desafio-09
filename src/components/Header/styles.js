@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link as LinkReactRouterDom } from 'react-router-dom';
 
 import colors from '~/styles/colors';
 
@@ -24,18 +25,20 @@ export const Content = styled.div`
       padding-right: 20px;
       border-right: 1px solid ${colors.inputBorder};
     }
-
-    a {
-      text-transform: uppercase;
-      font-weight: bold;
-      color: ${colors.placeholder};
-    }
   }
 
   aside {
     display: flex;
     align-items: center;
   }
+`;
+
+export const Link = styled(LinkReactRouterDom)`
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 20px;
+  color: ${({ to, active }) =>
+    to === active ? colors.activeMenu : colors.placeholder};
 `;
 
 export const Profile = styled.div`
