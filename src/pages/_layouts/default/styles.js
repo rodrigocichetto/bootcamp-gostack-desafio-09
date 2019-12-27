@@ -71,3 +71,17 @@ export const InfoAction = styled(Link)`
 export const DangerAction = styled(Link)`
   color: ${colors.error};
 `;
+
+export const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 10px;
+
+    svg {
+      margin: 0;
+    }
+  }
+`;

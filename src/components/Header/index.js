@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import history from '~/services/history';
 
 import { signOut } from '~/store/modules/auth/actions';
@@ -10,6 +10,7 @@ import logo from '~/assets/logo-horizontal.svg';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const profile = useSelector(state => state.user.profile);
 
   const handleSignOut = () => dispatch(signOut());
 
@@ -27,7 +28,7 @@ const Header = () => {
         </nav>
         <aside>
           <Profile>
-            <strong>Name</strong>
+            <strong>{profile.name}</strong>
             <a href="#logout" onClick={handleSignOut}>
               sair do sistema
             </a>
