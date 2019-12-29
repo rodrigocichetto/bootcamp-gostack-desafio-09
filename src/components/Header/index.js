@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import history from '~/services/history';
+import { ROUTE_PATH } from '~/config/constants';
 
 import { signOut } from '~/store/modules/auth/actions';
 import { Container, Content, Link, Profile } from './styles';
@@ -19,7 +20,7 @@ const Header = () => {
       <Content>
         <nav>
           <img src={logo} alt="Gympoint" />
-          <Link to="/dashboard" active={history.location.pathname}>
+          <Link to={ROUTE_PATH.STUDENT} active={history.location.pathname}>
             Alunos
           </Link>
           <Link to="/plans" active={history.location.pathname}>

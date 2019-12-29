@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
+import { ROUTE_PATH } from '~/config/constants';
+
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
 
@@ -19,7 +21,7 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to={ROUTE_PATH.STUDENT} />;
   }
 
   const Layout = signed ? DefaultLayout : AuthLayout;

@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { darken } from 'polished';
-
-// import { Input as InputUnform } from '@rocketseat/unform';
+import { Link } from 'react-router-dom';
 
 import colors from '~/styles/colors';
 
@@ -64,6 +63,27 @@ export const Button = styled.button`
 
   svg {
     vertical-align: top;
+    margin-right: 5px;
+  }
+`;
+
+export const LinkButton = styled(Link)`
+  margin: 5px 0 0;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: 0;
+  font-size: 16px;
+  font-weight: bold;
+  background: ${props => (props.disabled ? colors.disabled : colors.primary)};
+  color: ${colors.white};
+  transition: background 0.2s;
+
+  &:hover {
+    background: ${darken(0.03, colors.primary)};
+  }
+
+  svg {
+    vertical-align: text-top;
     margin-right: 5px;
   }
 `;

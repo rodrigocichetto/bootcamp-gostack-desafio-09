@@ -1,15 +1,23 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 
+import { ROUTE_PATH } from '~/config/constants';
+
 import Route from './Route';
 import SignIn from '~/pages/SignIn';
-import Dashboard from '~/pages/Dashboard';
+import Student from '~/pages/Student';
+import StudentForm from '~/pages/Student/Form';
 
 const Routes = () => (
   <Switch>
     <Route path="/" exact component={SignIn} />
 
-    <Route path="/dashboard" component={Dashboard} isPrivate />
+    <Route
+      path={`${ROUTE_PATH.STUDENT_FORM}`}
+      component={StudentForm}
+      isPrivate
+    />
+    <Route path={ROUTE_PATH.STUDENT} component={Student} isPrivate />
   </Switch>
 );
 

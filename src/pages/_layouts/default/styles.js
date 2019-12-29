@@ -36,6 +36,39 @@ export const Content = styled.div`
   padding: 30px;
   background: ${colors.white};
   border-radius: 4px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
+    input {
+      background: ${colors.white};
+      border: 1px solid ${colors.inputBorder};
+      border-radius: 4px;
+      height: 44px;
+      font-size: 16px;
+      padding: 0 10px;
+      margin: 0 0 10px;
+
+      &::placeholder {
+        color: ${colors.placeholder};
+      }
+    }
+
+    span {
+      color: ${colors.error};
+      align-self: flex-start;
+      margin: 0 0 10px;
+    }
+  }
 `;
 
 export const Table = styled.table`
@@ -70,18 +103,4 @@ export const InfoAction = styled(Link)`
 
 export const DangerAction = styled(Link)`
   color: ${colors.error};
-`;
-
-export const Pagination = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  button {
-    margin-left: 10px;
-
-    svg {
-      margin: 0;
-    }
-  }
 `;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaAngleRight, FaAngleLeft } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 
 import api from '~/services/api';
+import { ROUTE_PATH } from '~/config/constants';
 
+import Pagination from '~/components/Pagination';
 import {
   ContentWrapper,
   ContentHeader,
@@ -11,11 +13,10 @@ import {
   Actions,
   InfoAction,
   DangerAction,
-  Pagination,
 } from '~/pages/_layouts/default/styles';
-import { Input, Button } from '~/styles/global';
+import { Input, LinkButton } from '~/styles/global';
 
-const Dashboard = () => {
+const Student = () => {
   const [students, setStudents] = useState([]);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,16 +31,16 @@ const Dashboard = () => {
       setPages(response.data.pages);
     }
     loadStudents();
-  }, [currentPage, students]);
+  }, [currentPage]);
 
   return (
     <ContentWrapper>
       <ContentHeader>
         <h1>Gerenciando alunos</h1>
         <div>
-          <Button type="button">
+          <LinkButton to={ROUTE_PATH.STUDENT_FORM} type="button">
             <FaPlus /> CADASTRAR
-          </Button>
+          </LinkButton>
           <Input type="text" placeholder="Buscar aluno" />
         </div>
       </ContentHeader>
@@ -59,7 +60,14 @@ const Dashboard = () => {
                 <td>{student.email}</td>
                 <td>{student.age}</td>
                 <Actions>
-                  <InfoAction to="/">editar</InfoAction>
+                  <InfoAction
+                    to={{
+                      pathname: ROUTE_PATH.STUDENT_FORM,
+                      data: { student },
+                    }}
+                  >
+                    editar
+                  </InfoAction>
                   <DangerAction to="/">apagar</DangerAction>
                 </Actions>
               </tr>
@@ -67,31 +75,15 @@ const Dashboard = () => {
           </tbody>
         </Table>
       </Content>
-      <Pagination>
-        {currentPage !== 1 && pages > 0 && (
-          <Button type="button" onClick={() => setCurrentPage(currentPage - 1)}>
-            <FaAngleLeft />
-          </Button>
-        )}
-        {currentPage - 1 >= 1 && (
-          <Button type="button" onClick={() => setCurrentPage(currentPage - 1)}>
-            {currentPage - 1}
-          </Button>
-        )}
-        <Button type="button">{currentPage}</Button>
-        {pages > currentPage && (
-          <Button type="button" onClick={() => setCurrentPage(currentPage + 1)}>
-            {currentPage + 1}
-          </Button>
-        )}
-        {currentPage + 0 < pages && (
-          <Button type="button" onClick={() => setCurrentPage(currentPage + 1)}>
-            <FaAngleRight />
-          </Button>
-        )}
-      </Pagination>
+      {pages > 1 && (
+        <Pagination
+          pages={pages}
+          currentPage={currentPage}
+          onChange={setCurrentPage}
+        />
+      )}
     </ContentWrapper>
   );
 };
 
-export default Dashboard;
+export default Student;
