@@ -5,6 +5,7 @@ import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
 
 import Pagination from '~/components/Pagination';
+import Loader from '~/components/Loader';
 import {
   ContentWrapper,
   ContentHeader,
@@ -20,18 +21,25 @@ const Student = () => {
   const [students, setStudents] = useState([]);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStudents() {
+      setLoading(true);
       const response = await api.get('students', {
         params: { page: currentPage },
       });
 
       setStudents(response.data.students);
       setPages(response.data.pages);
+      setLoading(false);
     }
     loadStudents();
   }, [currentPage]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <ContentWrapper>

@@ -55,7 +55,9 @@ const StudentForm = ({ location }) => {
   return (
     <ContentWrapper>
       <ContentHeader>
-        <h1>Gerenciando alunos</h1>
+        <h1>
+          {data && data.student ? 'Edição de aluno' : 'Cadastro de aluno'}
+        </h1>
         <div>
           <LinkButton to={ROUTE_PATH.STUDENT} disabled type="button">
             <FaAngleLeft /> Voltar
