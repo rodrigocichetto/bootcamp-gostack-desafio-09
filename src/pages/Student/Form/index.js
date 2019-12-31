@@ -68,9 +68,8 @@ const StudentForm = ({ location }) => {
       resetForm();
       return toast.success('Estudante criado com sucesso!');
     } catch (err) {
-      toast.error('Erro ao salvar estudante.');
+      return toast.error('Erro ao salvar estudante.');
     }
-    return true;
   };
 
   return (
