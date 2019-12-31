@@ -54,6 +54,21 @@ export const Content = styled.div`
       margin-bottom: 8px;
     }
 
+    .group {
+      display: flex;
+      flex-direction: row;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        & + div {
+          margin-left: 15px;
+        }
+      }
+    }
+
     input {
       background: ${colors.white};
       border: 1px solid ${colors.inputBorder};
@@ -61,7 +76,7 @@ export const Content = styled.div`
       height: 44px;
       font-size: 16px;
       padding: 0 10px;
-      margin: 0 0 10px;
+      margin: 0 0 20px;
 
       &::placeholder {
         color: ${colors.placeholder};

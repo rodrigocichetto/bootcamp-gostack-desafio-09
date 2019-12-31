@@ -63,9 +63,9 @@ const Student = () => {
       if (students.length === 1) {
         return setCurrentPage(currentPage - 1);
       }
-      // return setStudents(students.filter(student => student.id !== id));
       return updateStudents();
     }
+    return false;
   };
 
   const handleSearch = ({ query: q }) => setQuery(q);
