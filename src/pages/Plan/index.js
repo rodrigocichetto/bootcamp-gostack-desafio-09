@@ -33,7 +33,12 @@ const Plan = () => {
       if (!response.data.plans.length && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       } else {
-        setPlans(response.data.plans);
+        setPlans(
+          response.data.plans.map(plan => ({
+            ...plan,
+            price: `R$ ${plan.price.toFixed(2).toLocaleString('pt-br')}`,
+          }))
+        );
         setPages(response.data.pages);
         setLoading(false);
       }
@@ -73,7 +78,7 @@ const Plan = () => {
       <ContentHeader>
         <h1>Gerenciando planos</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.STUDENT_FORM} type="button">
+          <LinkButton to={ROUTE_PATH.PLAN_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
         </div>
@@ -98,7 +103,7 @@ const Plan = () => {
                 <Actions>
                   <InfoAction
                     to={{
-                      pathname: ROUTE_PATH.STUDENT_FORM,
+                      pathname: ROUTE_PATH.PLAN_FORM,
                       data: { plan },
                     }}
                   >

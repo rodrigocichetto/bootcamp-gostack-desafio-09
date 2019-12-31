@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Input } from '@rocketseat/unform';
 
 import colors from '~/styles/colors';
 
@@ -78,6 +77,10 @@ export const Content = styled.div`
       padding: 0 10px;
       margin: 0 0 20px;
 
+      &:disabled {
+        background: ${colors.signedBackground};
+      }
+
       &::placeholder {
         color: ${colors.placeholder};
       }
@@ -150,16 +153,3 @@ export const Search = styled.div`
     }
   }
 `;
-
-// export const Search = styled(Input)`
-//   background: ${colors.white};
-//   border: 1px solid ${colors.inputBorder};
-//   border-radius: 4px;
-//   font-size: 16px;
-//   padding: 10px 16px;
-//   margin: 0 0 10px;
-
-//   &::placeholder {
-//     color: ${colors.placeholder};
-//   }
-// `;
