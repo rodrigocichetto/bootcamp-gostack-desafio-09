@@ -28,12 +28,14 @@ const Header = () => {
           </Link>
         </nav>
         <aside>
-          <Profile>
-            <strong>{profile.name}</strong>
-            <a href="#logout" onClick={handleSignOut}>
-              sair do sistema
-            </a>
-          </Profile>
+          {profile && (
+            <Profile>
+              <strong>{profile.name}</strong>
+              <a href="#logount" onClick={handleSignOut}>
+                sair do sistema
+              </a>
+            </Profile>
+          )}
         </aside>
       </Content>
     </Container>

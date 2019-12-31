@@ -101,6 +101,7 @@ export const InfoAction = styled(Link)`
   color: ${colors.info};
 `;
 
-export const DangerAction = styled(Link)`
+export const DangerAction = styled.a`
+  cursor: pointer;
   color: ${colors.error};
 `;

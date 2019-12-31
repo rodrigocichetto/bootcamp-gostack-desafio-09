@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import { FaCheck, FaAngleLeft } from 'react-icons/fa';
 
 import api from '~/services/api';
@@ -48,8 +49,28 @@ const StudentForm = ({ location }) => {
     }
   }, [data]);
 
-  const handleSubmit = ({ name, email, age, weight, height }) => {
-    console.log('SUBMITED');
+  const handleSubmit = async (
+    { name, email, age, weight, height },
+    { resetForm }
+  ) => {
+    try {
+      if (data && data.student) {
+        await api.put(`students/${student.id}`, {
+          name,
+          email,
+          age,
+          weight,
+          height,
+        });
+        return toast.success('Estudante salvo com sucesso!');
+      }
+      await api.post('students', { name, email, age, weight, height });
+      resetForm();
+      return toast.success('Estudante criado com sucesso!');
+    } catch (err) {
+      toast.error('Erro ao salvar estudante.');
+    }
+    return true;
   };
 
   return (
@@ -92,7 +113,7 @@ const StudentForm = ({ location }) => {
           <Input id="weight" name="weight" type="number" />
 
           <label htmlFor="height">ALTURA</label>
-          <Input id="height" name="height" type="number" />
+          <Input id="height" name="height" type="number" step="any" />
         </Form>
       </Content>
     </ContentWrapper>

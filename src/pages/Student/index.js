@@ -30,12 +30,40 @@ const Student = () => {
         params: { page: currentPage },
       });
 
-      setStudents(response.data.students);
-      setPages(response.data.pages);
-      setLoading(false);
+      if (!response.data.students.length && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      } else {
+        setStudents(response.data.students);
+        setPages(response.data.pages);
+        setLoading(false);
+      }
     }
     loadStudents();
   }, [currentPage]);
+
+  const updateStudents = async () => {
+    setLoading(true);
+
+    const response = await api.get('students', {
+      params: { page: currentPage },
+    });
+
+    setStudents(response.data.students);
+    setPages(response.data.pages);
+    setLoading(false);
+  };
+
+  const deleteStudent = async ({ id, name }) => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Deseja realmente excluir ${name}?`)) {
+      await api.delete(`students/${id}`);
+      if (students.length === 1) {
+        return setCurrentPage(currentPage - 1);
+      }
+      // return setStudents(students.filter(student => student.id !== id));
+      return updateStudents();
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -76,7 +104,9 @@ const Student = () => {
                   >
                     editar
                   </InfoAction>
-                  <DangerAction to="/">apagar</DangerAction>
+                  <DangerAction onClick={() => deleteStudent(student)}>
+                    apagar
+                  </DangerAction>
                 </Actions>
               </tr>
             ))}
