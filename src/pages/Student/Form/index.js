@@ -106,14 +106,22 @@ const StudentForm = ({ location }) => {
             placeholder="exemplo@email.com"
           />
 
-          <label htmlFor="age">IDADE</label>
-          <Input id="age" name="age" type="number" />
+          <div className="group">
+            <div>
+              <label htmlFor="age">IDADE</label>
+              <Input id="age" name="age" type="number" />
+            </div>
 
-          <label htmlFor="weight">PESO (em kg)</label>
-          <Input id="weight" name="weight" type="number" />
+            <div>
+              <label htmlFor="weight">PESO (em kg)</label>
+              <Input id="weight" name="weight" type="number" />
+            </div>
 
-          <label htmlFor="height">ALTURA</label>
-          <Input id="height" name="height" type="number" step="any" />
+            <div>
+              <label htmlFor="height">ALTURA</label>
+              <Input id="height" name="height" type="number" step="any" />
+            </div>
+          </div>
         </Form>
       </Content>
     </ContentWrapper>
