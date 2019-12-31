@@ -23,7 +23,7 @@ const Header = () => {
           <Link to={ROUTE_PATH.STUDENT} active={history.location.pathname}>
             Alunos
           </Link>
-          <Link to="/plans" active={history.location.pathname}>
+          <Link to={ROUTE_PATH.PLAN} active={history.location.pathname}>
             Planos
           </Link>
         </nav>

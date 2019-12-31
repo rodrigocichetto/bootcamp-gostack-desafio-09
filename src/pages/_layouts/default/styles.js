@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Input } from '@rocketseat/unform';
 
 import colors from '~/styles/colors';
 
@@ -25,8 +26,12 @@ export const ContentHeader = styled.div`
 
   div {
     button,
-    input {
+    form {
       margin-left: 16px;
+    }
+
+    form {
+      display: inline-flex;
     }
   }
 `;
@@ -105,3 +110,41 @@ export const DangerAction = styled.a`
   cursor: pointer;
   color: ${colors.error};
 `;
+
+export const Search = styled.div`
+  position: relative;
+  display: flex;
+
+  svg {
+    position: absolute;
+    left: 15px;
+    color: ${colors.placeholder};
+    top: 13px;
+  }
+
+  input {
+    background: ${colors.white};
+    border: 1px solid ${colors.inputBorder};
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px 16px 10px 35px;
+    margin: 0 0 10px;
+
+    &::placeholder {
+      color: ${colors.placeholder};
+    }
+  }
+`;
+
+// export const Search = styled(Input)`
+//   background: ${colors.white};
+//   border: 1px solid ${colors.inputBorder};
+//   border-radius: 4px;
+//   font-size: 16px;
+//   padding: 10px 16px;
+//   margin: 0 0 10px;
+
+//   &::placeholder {
+//     color: ${colors.placeholder};
+//   }
+// `;

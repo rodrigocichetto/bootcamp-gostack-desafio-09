@@ -87,16 +87,3 @@ export const LinkButton = styled(Link)`
     margin-right: 5px;
   }
 `;
-
-export const Input = styled.input`
-  background: ${colors.white};
-  border: 1px solid ${colors.inputBorder};
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 10px 16px;
-  margin: 0 0 10px;
-
-  &::placeholder {
-    color: ${colors.placeholder};
-  }
-`;

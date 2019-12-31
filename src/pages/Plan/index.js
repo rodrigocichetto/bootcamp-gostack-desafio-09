@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaSearch } from 'react-icons/fa';
-import { Form, Input } from '@rocketseat/unform';
+import { FaPlus } from 'react-icons/fa';
 
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
@@ -15,60 +14,55 @@ import {
   Actions,
   InfoAction,
   DangerAction,
-  Search,
 } from '~/pages/_layouts/default/styles';
 import { LinkButton } from '~/styles/global';
 
-const Student = () => {
-  const [students, setStudents] = useState([]);
+const Plan = () => {
+  const [plans, setPlans] = useState([]);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    async function loadStudents() {
+    async function loadPlans() {
       setLoading(true);
-      const response = await api.get('students', {
-        params: { page: currentPage, q: query },
+      const response = await api.get('plans', {
+        params: { page: currentPage },
       });
 
-      if (!response.data.students.length && currentPage > 1) {
+      if (!response.data.plans.length && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       } else {
-        setStudents(response.data.students);
+        setPlans(response.data.plans);
         setPages(response.data.pages);
         setLoading(false);
       }
     }
-    loadStudents();
-  }, [currentPage, query]);
+    loadPlans();
+  }, [currentPage]);
 
-  const updateStudents = async () => {
+  const updatePlans = async () => {
     setLoading(true);
 
-    const response = await api.get('students', {
+    const response = await api.get('plans', {
       params: { page: currentPage },
     });
 
-    setStudents(response.data.students);
+    setPlans(response.data.plans);
     setPages(response.data.pages);
     setLoading(false);
   };
 
-  const deleteStudent = async ({ id, name }) => {
+  const deletePlan = async ({ id, title }) => {
     // eslint-disable-next-line no-alert
-    if (window.confirm(`Deseja realmente excluir ${name}?`)) {
-      await api.delete(`students/${id}`);
-      if (students.length === 1) {
+    if (window.confirm(`Deseja realmente excluir ${title}?`)) {
+      await api.delete(`plans/${id}`);
+      if (plans.length === 1) {
         return setCurrentPage(currentPage - 1);
       }
-      // return setStudents(students.filter(student => student.id !== id));
-      return updateStudents();
+      return updatePlans();
     }
   };
-
-  const handleSearch = ({ query: q }) => setQuery(q);
 
   if (loading) {
     return <Loader />;
@@ -77,44 +71,40 @@ const Student = () => {
   return (
     <ContentWrapper>
       <ContentHeader>
-        <h1>Gerenciando alunos</h1>
+        <h1>Gerenciando planos</h1>
         <div>
           <LinkButton to={ROUTE_PATH.STUDENT_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
-          <Form onSubmit={handleSearch} initialData={{ query }}>
-            <Search>
-              <FaSearch />
-              <Input type="text" placeholder="Buscar aluno" name="query" />
-            </Search>
-          </Form>
         </div>
       </ContentHeader>
       <Content>
         <Table>
           <thead>
             <tr>
-              <th>NOME</th>
-              <th>E-MAIL</th>
-              <th>IDADE</th>
+              <th>TÍTULO</th>
+              <th>DURAÇÃO</th>
+              <th>VALOR P/ MÊS</th>
             </tr>
           </thead>
           <tbody>
-            {students.map(student => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.age}</td>
+            {plans.map(plan => (
+              <tr key={plan.id}>
+                <td>{plan.title}</td>
+                <td>
+                  {plan.duration} {plan.duration > 1 ? 'meses' : 'mês'}
+                </td>
+                <td>{plan.price}</td>
                 <Actions>
                   <InfoAction
                     to={{
                       pathname: ROUTE_PATH.STUDENT_FORM,
-                      data: { student },
+                      data: { plan },
                     }}
                   >
                     editar
                   </InfoAction>
-                  <DangerAction onClick={() => deleteStudent(student)}>
+                  <DangerAction onClick={() => deletePlan(plan)}>
                     apagar
                   </DangerAction>
                 </Actions>
@@ -134,4 +124,4 @@ const Student = () => {
   );
 };
 
-export default Student;
+export default Plan;
