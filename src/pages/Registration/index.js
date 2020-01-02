@@ -27,6 +27,22 @@ const Registration = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const formatRegistrations = response =>
+    response.data.registrations.map(registration => ({
+      ...registration,
+      price: `R$ ${registration.price.toFixed(2).toLocaleString('pt-br')}`,
+      start_date: format(
+        new Date(registration.start_date),
+        "d 'de' MMMM 'de' Y",
+        {
+          locale: pt,
+        }
+      ),
+      end_date: format(new Date(registration.end_date), "d 'de' MMMM 'de' Y", {
+        locale: pt,
+      }),
+    }));
+
   useEffect(() => {
     async function loadRegistrations() {
       try {
@@ -38,28 +54,7 @@ const Registration = () => {
         if (!response.data.registrations.length && currentPage > 1) {
           setCurrentPage(currentPage - 1);
         } else {
-          setRegistrations(
-            response.data.registrations.map(registration => ({
-              ...registration,
-              price: `R$ ${registration.price
-                .toFixed(2)
-                .toLocaleString('pt-br')}`,
-              start_date: format(
-                new Date(registration.start_date),
-                "d 'de' MMMM 'de' Y",
-                {
-                  locale: pt,
-                }
-              ),
-              end_date: format(
-                new Date(registration.end_date),
-                "d 'de' MMMM 'de' Y",
-                {
-                  locale: pt,
-                }
-              ),
-            }))
-          );
+          setRegistrations(formatRegistrations(response));
           setPages(response.data.pages);
           setLoading(false);
         }
@@ -77,7 +72,7 @@ const Registration = () => {
       params: { page: currentPage },
     });
 
-    setRegistrations(response.data.registrations);
+    setRegistrations(formatRegistrations(response));
     setPages(response.data.pages);
     setLoading(false);
   };
@@ -105,7 +100,7 @@ const Registration = () => {
       <ContentHeader>
         <h1>Gerenciando matrículas</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.PLAN_FORM} type="button">
+          <LinkButton to={ROUTE_PATH.REGISTRATION_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
         </div>

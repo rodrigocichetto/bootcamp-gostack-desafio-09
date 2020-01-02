@@ -57,7 +57,7 @@ export const Content = styled.div`
       display: flex;
       flex-direction: row;
 
-      div {
+      & > div {
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -72,9 +72,9 @@ export const Content = styled.div`
       background: ${colors.white};
       border: 1px solid ${colors.inputBorder};
       border-radius: 4px;
-      height: 44px;
+      min-height: 46px;
       font-size: 16px;
-      padding: 0 10px;
+      padding: 10px;
       margin: 0 0 20px;
 
       &:disabled {
@@ -83,6 +83,15 @@ export const Content = styled.div`
 
       &::placeholder {
         color: ${colors.placeholder};
+      }
+    }
+
+    .async-select {
+      margin: 0 0 20px;
+
+      input {
+        margin: 8px 0;
+        min-height: auto;
       }
     }
 

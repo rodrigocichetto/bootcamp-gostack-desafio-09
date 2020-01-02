@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FaCheck, FaAngleLeft } from 'react-icons/fa';
 import AsyncSelect from 'react-select/async';
+import { endOfDay, addMonths, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
@@ -16,32 +17,40 @@ import {
 } from '~/pages/_layouts/default/styles';
 import { Button, LinkButton } from '~/styles/global';
 
-const schema = Yup.object().shape({
-  student_id: Yup.number()
-    .typeError('O campo aluno é obrigatório')
-    .required(),
-  plan_id: Yup.number()
-    .typeError('O campo plano é obrigatório')
-    .required(),
-  start_date: Yup.date().required('O campo data de início é obrigatório'),
-});
-
 const RegistrationForm = ({ location }) => {
   const INITIAL_STATE = {
     student: {},
     plan: {},
-    start_date: '',
+    start_date: new Date(),
   };
 
   const { data } = location;
 
   const [registration, setRegistration] = useState(INITIAL_STATE);
+
   const total = useMemo(
     () =>
-      `R$ ${(registration.plan.duration * registration.plan.price)
-        .toFixed(2)
-        .toLocaleString('pt-br')}`,
-    [registration.plan.duration, registration.plan.price]
+      registration.plan.duration && registration.plan.price
+        ? `R$ ${(registration.plan.duration * registration.plan.price)
+            .toFixed(2)
+            .toLocaleString('pt-br')}`
+        : '',
+    [registration.plan]
+  );
+  const endDate = useMemo(
+    () =>
+      registration.start_date && registration.plan.duration
+        ? format(
+            endOfDay(
+              addMonths(
+                new Date(registration.start_date),
+                registration.plan.duration
+              )
+            ),
+            'yyyy-MM-dd'
+          )
+        : '',
+    [registration.start_date, registration.plan]
   );
 
   useEffect(() => {
@@ -51,24 +60,27 @@ const RegistrationForm = ({ location }) => {
         ...response.data,
       });
     }
+
     if (data && data.registration) {
       getRegistration();
     }
   }, [data]);
 
-  const handleSubmit = async ({ student, plan, start_date }, { resetForm }) => {
+  const handleSubmit = async ({ start_date }, { resetForm }) => {
+    if (!registration.student.id || !registration.plan.id) {
+      return toast.error('Preencha todos os campos!');
+    }
     try {
       if (data && data.registration) {
         await api.put(`registrations/${registration.id}`, {
-          student_id: student.id,
-          plan_id: plan.id,
+          plan_id: registration.plan.id,
           start_date,
         });
         return toast.success('Matrícula salva com sucesso!');
       }
       await api.post('registrations', {
-        student_id: student.id,
-        plan_id: plan.id,
+        student_id: registration.student.id,
+        plan_id: registration.plan.id,
         start_date,
       });
       resetForm();
@@ -79,13 +91,28 @@ const RegistrationForm = ({ location }) => {
     }
   };
 
-  const loadOptions = () => [];
+  const loadStudentsOptions = async (inputValue, callback) => {
+    const response = await api.get('students', { params: { q: inputValue } });
+    return response.data.students.map(student => ({
+      value: student,
+      label: student.name,
+    }));
+  };
+
+  const loadPlansOptions = async (inputValue, callback) => {
+    const response = await api.get('plans', { params: { q: inputValue } });
+    return response.data.plans.map(plan => ({
+      value: plan,
+      label: plan.title,
+    }));
+  };
 
   const handleInputChange = (event, field) =>
     setRegistration({ ...registration, [field]: event.target.value });
 
-  const handleSelectChange = (newValue, field) =>
-    setRegistration({ ...registration, [field]: newValue });
+  const handleSelectChange = (newValue, field) => {
+    setRegistration({ ...registration, [field]: newValue.value });
+  };
 
   return (
     <ContentWrapper>
@@ -99,53 +126,77 @@ const RegistrationForm = ({ location }) => {
           <LinkButton to={ROUTE_PATH.REGISTRATION} disabled type="button">
             <FaAngleLeft /> Voltar
           </LinkButton>
-          <Button type="submit" form="plan-form">
+          <Button type="submit" form="registration-form">
             <FaCheck /> Salvar
           </Button>
         </div>
       </ContentHeader>
       <Content>
         <Form
-          id="plan-form"
-          schema={schema}
+          id="registration-form"
           onSubmit={handleSubmit}
           initialData={registration}
         >
           <label htmlFor="student-id">ALUNO</label>
           <AsyncSelect
             cacheOptions
-            loadOptions={loadOptions}
-            onInputChange={handleSelectChange}
+            loadOptions={loadStudentsOptions}
+            onChange={newValue => handleSelectChange(newValue, 'student')}
+            defaultOptions
             id="student-id"
-            name="student_id"
-            type="text"
+            name="student"
+            value={{
+              value: registration.student,
+              label: registration.student.name,
+            }}
+            isDisabled={data && data.registration}
+            className="async-select"
           />
 
           <div className="group">
             <div>
-              <label htmlFor="age">DURAÇÃO (em meses)</label>
-              <Input
-                id="duration"
-                name="duration"
-                type="number"
-                onChange={e => handleInputChange(e, 'duration')}
-                value={registration.duration}
+              <label htmlFor="age">PLANO</label>
+              <AsyncSelect
+                cacheOptions
+                loadOptions={loadPlansOptions}
+                onChange={newValue => handleSelectChange(newValue, 'plan')}
+                defaultOptions
+                id="student-id"
+                name="plan"
+                value={{
+                  value: registration.plan,
+                  label: registration.plan.title,
+                }}
+                className="async-select"
               />
             </div>
 
             <div>
-              <label htmlFor="price">PREÇO MENSAL</label>
+              <label htmlFor="start_date">DATA DE INÍCIO</label>
               <Input
-                id="price"
-                name="price"
-                type="number"
-                onChange={e => handleInputChange(e, 'price')}
-                value={registration.price}
+                id="start_date"
+                name="start_date"
+                type="date"
+                onChange={e => handleInputChange(e, 'start_date')}
+                value={format(new Date(registration.start_date), 'yyyy-MM-dd', {
+                  locale: pt,
+                })}
               />
             </div>
 
             <div>
-              <label htmlFor="total">PREÇO TOTAL</label>
+              <label htmlFor="end-date">DATA DE TÉRMINO</label>
+              <Input
+                disabled
+                type="date"
+                id="end-date"
+                name="end_date"
+                value={endDate}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="total">VALOR FINAL</label>
               <Input disabled id="total" name="total" value={total} />
             </div>
           </div>
