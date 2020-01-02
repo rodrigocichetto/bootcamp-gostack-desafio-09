@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaSearch } from 'react-icons/fa';
 import { Form, Input } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
@@ -28,17 +29,21 @@ const Student = () => {
 
   useEffect(() => {
     async function loadStudents() {
-      setLoading(true);
-      const response = await api.get('students', {
-        params: { page: currentPage, q: query },
-      });
+      try {
+        setLoading(true);
+        const response = await api.get('students', {
+          params: { page: currentPage, q: query },
+        });
 
-      if (!response.data.students.length && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-      } else {
-        setStudents(response.data.students);
-        setPages(response.data.pages);
-        setLoading(false);
+        if (!response.data.students.length && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        } else {
+          setStudents(response.data.students);
+          setPages(response.data.pages);
+          setLoading(false);
+        }
+      } catch (e) {
+        toast.error('Erro ao consultar alunos.');
       }
     }
     loadStudents();

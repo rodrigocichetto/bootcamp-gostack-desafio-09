@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
@@ -25,22 +26,26 @@ const Plan = () => {
 
   useEffect(() => {
     async function loadPlans() {
-      setLoading(true);
-      const response = await api.get('plans', {
-        params: { page: currentPage },
-      });
+      try {
+        setLoading(true);
+        const response = await api.get('plans', {
+          params: { page: currentPage },
+        });
 
-      if (!response.data.plans.length && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-      } else {
-        setPlans(
-          response.data.plans.map(plan => ({
-            ...plan,
-            price: `R$ ${plan.price.toFixed(2).toLocaleString('pt-br')}`,
-          }))
-        );
-        setPages(response.data.pages);
-        setLoading(false);
+        if (!response.data.plans.length && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        } else {
+          setPlans(
+            response.data.plans.map(plan => ({
+              ...plan,
+              price: `R$ ${plan.price.toFixed(2).toLocaleString('pt-br')}`,
+            }))
+          );
+          setPages(response.data.pages);
+          setLoading(false);
+        }
+      } catch (e) {
+        toast.error('Erro ao consultar planos.');
       }
     }
     loadPlans();

@@ -26,6 +26,9 @@ const Header = () => {
           <Link to={ROUTE_PATH.PLAN} active={history.location.pathname}>
             Planos
           </Link>
+          <Link to={ROUTE_PATH.REGISTRATION} active={history.location.pathname}>
+            Matrículas
+          </Link>
         </nav>
         <aside>
           {profile && (
