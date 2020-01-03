@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import Pagination from '~/components/Pagination';
 import Loader from '~/components/Loader';
@@ -84,7 +84,7 @@ const Plan = () => {
       <ContentHeader>
         <h1>Gerenciando planos</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.PLAN_FORM} type="button">
+          <LinkButton to={PATHS.PLAN_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
         </div>
@@ -109,7 +109,7 @@ const Plan = () => {
                 <Actions>
                   <InfoAction
                     to={{
-                      pathname: ROUTE_PATH.PLAN_FORM,
+                      pathname: PATHS.PLAN_FORM,
                       data: { plan },
                     }}
                   >

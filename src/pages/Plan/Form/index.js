@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { FaCheck, FaAngleLeft } from 'react-icons/fa';
 
 import api from '~/services/api';
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import {
   ContentWrapper,
@@ -82,7 +82,7 @@ const PlanForm = ({ location }) => {
       <ContentHeader>
         <h1>{data && data.plan ? 'Edição de plano' : 'Cadastro de plano'}</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.PLAN} disabled type="button">
+          <LinkButton to={PATHS.PLAN} disabled type="button">
             <FaAngleLeft /> Voltar
           </LinkButton>
           <Button type="submit" form="plan-form">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import Route from './Route';
 import SignIn from '~/pages/SignIn';
@@ -11,27 +11,26 @@ import Plan from '~/pages/Plan';
 import PlanForm from '~/pages/Plan/Form';
 import Registration from '~/pages/Registration';
 import RegistrationForm from '~/pages/Registration/Form';
+import HelpOrder from '~/pages/HelpOrder';
 
 const Routes = () => (
   <Switch>
     <Route path="/" exact component={SignIn} />
 
-    <Route
-      path={`${ROUTE_PATH.STUDENT_FORM}`}
-      component={StudentForm}
-      isPrivate
-    />
-    <Route path={ROUTE_PATH.STUDENT} component={Student} isPrivate />
+    <Route path={`${PATHS.STUDENT_FORM}`} component={StudentForm} isPrivate />
+    <Route path={PATHS.STUDENT} component={Student} isPrivate />
 
-    <Route path={`${ROUTE_PATH.PLAN_FORM}`} component={PlanForm} isPrivate />
-    <Route path={ROUTE_PATH.PLAN} component={Plan} isPrivate />
+    <Route path={`${PATHS.PLAN_FORM}`} component={PlanForm} isPrivate />
+    <Route path={PATHS.PLAN} component={Plan} isPrivate />
 
     <Route
-      path={`${ROUTE_PATH.REGISTRATION_FORM}`}
+      path={`${PATHS.REGISTRATION_FORM}`}
       component={RegistrationForm}
       isPrivate
     />
-    <Route path={ROUTE_PATH.REGISTRATION} component={Registration} isPrivate />
+    <Route path={PATHS.REGISTRATION} component={Registration} isPrivate />
+
+    <Route path={PATHS.HELP_ORDER} component={HelpOrder} isPrivate />
   </Switch>
 );
 

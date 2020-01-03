@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import { signInSuccess, signFailure } from './actions';
 
@@ -23,7 +23,7 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(token, user));
 
-    history.push(ROUTE_PATH.STUDENT);
+    history.push(PATHS.STUDENT);
   } catch (err) {
     toast.error('Falha na autenticação, verifique seus dados.');
     yield put(signFailure());

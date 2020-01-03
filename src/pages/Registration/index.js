@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import pt from 'date-fns/locale/pt';
 
 import api from '~/services/api';
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import Pagination from '~/components/Pagination';
 import Loader from '~/components/Loader';
@@ -100,7 +100,7 @@ const Registration = () => {
       <ContentHeader>
         <h1>Gerenciando matrículas</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.REGISTRATION_FORM} type="button">
+          <LinkButton to={PATHS.REGISTRATION_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
         </div>
@@ -129,7 +129,7 @@ const Registration = () => {
                 <Actions>
                   <InfoAction
                     to={{
-                      pathname: ROUTE_PATH.REGISTRATION_FORM,
+                      pathname: PATHS.REGISTRATION_FORM,
                       data: { registration },
                     }}
                   >

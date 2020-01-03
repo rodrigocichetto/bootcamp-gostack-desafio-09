@@ -4,7 +4,7 @@ import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import Pagination from '~/components/Pagination';
 import Loader from '~/components/Loader';
@@ -84,7 +84,7 @@ const Student = () => {
       <ContentHeader>
         <h1>Gerenciando alunos</h1>
         <div>
-          <LinkButton to={ROUTE_PATH.STUDENT_FORM} type="button">
+          <LinkButton to={PATHS.STUDENT_FORM} type="button">
             <FaPlus /> CADASTRAR
           </LinkButton>
           <Form onSubmit={handleSearch} initialData={{ query }}>
@@ -113,7 +113,7 @@ const Student = () => {
                 <Actions>
                   <InfoAction
                     to={{
-                      pathname: ROUTE_PATH.STUDENT_FORM,
+                      pathname: PATHS.STUDENT_FORM,
                       data: { student },
                     }}
                   >

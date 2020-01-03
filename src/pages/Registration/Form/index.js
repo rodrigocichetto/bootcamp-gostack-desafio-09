@@ -7,7 +7,7 @@ import AsyncSelect from 'react-select/async';
 import { endOfDay, addMonths, format } from 'date-fns';
 
 import api from '~/services/api';
-import { ROUTE_PATH } from '~/config/constants';
+import PATHS from '~/routes/paths';
 
 import {
   ContentWrapper,
@@ -127,7 +127,7 @@ const RegistrationForm = ({ location }) => {
             : 'Cadastro de matrícula'}
         </h1>
         <div>
-          <LinkButton to={ROUTE_PATH.REGISTRATION} disabled type="button">
+          <LinkButton to={PATHS.REGISTRATION} disabled type="button">
             <FaAngleLeft /> Voltar
           </LinkButton>
           <Button type="submit" form="registration-form">

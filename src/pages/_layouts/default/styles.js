@@ -68,7 +68,8 @@ export const Content = styled.div`
       }
     }
 
-    input {
+    input,
+    textarea {
       background: ${colors.white};
       border: 1px solid ${colors.inputBorder};
       border-radius: 4px;
@@ -130,6 +131,10 @@ export const Actions = styled.td`
 `;
 
 export const InfoAction = styled(Link)`
+  color: ${colors.info};
+`;
+
+export const ModalAction = styled.a`
   color: ${colors.info};
 `;
 
