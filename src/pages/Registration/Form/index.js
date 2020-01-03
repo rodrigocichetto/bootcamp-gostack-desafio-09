@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { FaCheck, FaAngleLeft } from 'react-icons/fa';
 import AsyncSelect from 'react-select/async';
 import { endOfDay, addMonths, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
 
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
@@ -74,14 +73,14 @@ const RegistrationForm = ({ location }) => {
       if (data && data.registration) {
         await api.put(`registrations/${registration.id}`, {
           plan_id: registration.plan.id,
-          start_date,
+          start_date: `${start_date}T11:00:00-03:00`,
         });
         return toast.success('Matrícula salva com sucesso!');
       }
       await api.post('registrations', {
         student_id: registration.student.id,
         plan_id: registration.plan.id,
-        start_date,
+        start_date: `${start_date}T11:00:00-03:00`,
       });
       resetForm();
       setRegistration(INITIAL_STATE);
@@ -91,7 +90,7 @@ const RegistrationForm = ({ location }) => {
     }
   };
 
-  const loadStudentsOptions = async (inputValue, callback) => {
+  const loadStudentsOptions = async inputValue => {
     const response = await api.get('students', { params: { q: inputValue } });
     return response.data.students.map(student => ({
       value: student,
@@ -99,7 +98,7 @@ const RegistrationForm = ({ location }) => {
     }));
   };
 
-  const loadPlansOptions = async (inputValue, callback) => {
+  const loadPlansOptions = async inputValue => {
     const response = await api.get('plans', { params: { q: inputValue } });
     return response.data.plans.map(plan => ({
       value: plan,
@@ -107,8 +106,13 @@ const RegistrationForm = ({ location }) => {
     }));
   };
 
-  const handleInputChange = (event, field) =>
-    setRegistration({ ...registration, [field]: event.target.value });
+  const handleStartDateChange = event =>
+    setRegistration({
+      ...registration,
+      start_date: event.target.value
+        ? new Date(`${event.target.value}T11:00:00-03:00`)
+        : new Date(),
+    });
 
   const handleSelectChange = (newValue, field) => {
     setRegistration({ ...registration, [field]: newValue.value });
@@ -151,6 +155,7 @@ const RegistrationForm = ({ location }) => {
             }}
             isDisabled={data && data.registration}
             className="async-select"
+            placeholder="Buscar aluno"
           />
 
           <div className="group">
@@ -177,10 +182,9 @@ const RegistrationForm = ({ location }) => {
                 id="start_date"
                 name="start_date"
                 type="date"
-                onChange={e => handleInputChange(e, 'start_date')}
-                value={format(new Date(registration.start_date), 'yyyy-MM-dd', {
-                  locale: pt,
-                })}
+                min={format(new Date(), 'yyyy-MM-dd')}
+                onChange={handleStartDateChange}
+                value={format(new Date(registration.start_date), 'yyyy-MM-dd')}
               />
             </div>
 

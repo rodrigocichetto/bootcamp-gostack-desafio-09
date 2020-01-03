@@ -7,7 +7,6 @@ import pt from 'date-fns/locale/pt';
 import api from '~/services/api';
 import { ROUTE_PATH } from '~/config/constants';
 
-import { ActiveIcon } from './styles';
 import Pagination from '~/components/Pagination';
 import Loader from '~/components/Loader';
 import {
@@ -20,6 +19,7 @@ import {
   DangerAction,
 } from '~/pages/_layouts/default/styles';
 import { LinkButton } from '~/styles/global';
+import { ActiveIcon, InactiveIcon } from './styles';
 
 const Registration = () => {
   const [registrations, setRegistrations] = useState([]);
@@ -123,7 +123,9 @@ const Registration = () => {
                 <td>{registration.plan.title}</td>
                 <td>{registration.start_date}</td>
                 <td>{registration.end_date}</td>
-                <td>{registration.active && <ActiveIcon />}</td>
+                <td>
+                  {registration.active ? <ActiveIcon /> : <InactiveIcon />}
+                </td>
                 <Actions>
                   <InfoAction
                     to={{

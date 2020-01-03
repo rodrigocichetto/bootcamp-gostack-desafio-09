@@ -24,6 +24,12 @@ const Plan = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const formatPlans = response =>
+    response.data.plans.map(plan => ({
+      ...plan,
+      price: `R$ ${plan.price.toFixed(2).toLocaleString('pt-br')}`,
+    }));
+
   useEffect(() => {
     async function loadPlans() {
       try {
@@ -35,12 +41,7 @@ const Plan = () => {
         if (!response.data.plans.length && currentPage > 1) {
           setCurrentPage(currentPage - 1);
         } else {
-          setPlans(
-            response.data.plans.map(plan => ({
-              ...plan,
-              price: `R$ ${plan.price.toFixed(2).toLocaleString('pt-br')}`,
-            }))
-          );
+          setPlans(formatPlans(response));
           setPages(response.data.pages);
           setLoading(false);
         }
@@ -58,7 +59,7 @@ const Plan = () => {
       params: { page: currentPage },
     });
 
-    setPlans(response.data.plans);
+    setPlans(formatPlans(response));
     setPages(response.data.pages);
     setLoading(false);
   };
